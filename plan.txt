@@ -1,0 +1,23 @@
+Password Manager Application
+
+
+Driver Program
+PasswordManager class
+
+
+
+
+PasswordManager
+Fields: 
+	- masterPassword: String which will be used to access and encrypt the save file
+	- allowAccess: boolean that’s “true” if the masterPassword has been provided correctly, false otherwise; all methods except the lockAndKey() method will be locked until this value becomes true
+
+Methods:
+	Constructor: set allowAccess to false; set masterPassword to empty
+	lockAndKey(String masterPasswordIn): 
+	loadFile(): loads a saved (encrypted) password file
+	addEntry(): adds password/username to save file
+	encryptEntry(): encrypt password using “masterPassword”
+	deleteEntry(): deletes password/username entry from file
+	accessEntry(String category): accesses entry based on category parameter entered
+	decryptEntry(): decrypts entry based on “masterPassword”
