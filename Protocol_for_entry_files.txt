@@ -1,0 +1,5 @@
+Protocol_for_entry_files
+
+Line 1: Username
+Line 2: Master password
+Line 3+: Category, Username, Password
