@@ -14,6 +14,7 @@ Fields:
 	- fileName: String that contains the name of the file being accessed and manipulated
 	- data: File object which is the file that contains the entries to be dealt with
 	- STATIC DEFAULT_FILENAME: String of the default file name to search for and load
+	- user: name of user
 
 Methods:
 	- Constructor: set allowAccess to false; set masterPassword to empty
@@ -25,3 +26,4 @@ Methods:
 	- String accessEntry(String category): accesses entry based on category parameter entered
 	- void decryptEntry(): decrypts entry based on “masterPassword”
 	- isFound(String categoryIn); 
+	- void createNewFile(): method called when loadFile() is unable to find the default file to load

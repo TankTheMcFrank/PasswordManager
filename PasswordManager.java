@@ -9,6 +9,7 @@ public class PasswordManager {
    private boolean allowAccess;
    private String fileName;
    private String masterPassword;
+   private String user;
 
    private static String DEFAULT_FILENAME = "entry_files.txt";
 
@@ -62,10 +63,10 @@ public class PasswordManager {
       }
       catch (Exception e) {
          System.out.println("No default file found: " + e + 
-            	"\n Creating a new file.");
-         createNewFile();
+            	"\nCreating a new file.");
          return false;
       }
+      System.out.println("File successfully loaded.");
       return true;
    }
 
@@ -85,15 +86,21 @@ public class PasswordManager {
 	/**
 	 * 
 	 */
-	public void createNewFile() {
-		try {
-			PrintWriter writer = new PrintWriter(DEFAULT_FILENAME, "UTF-8");
-			writer.close();
-		}
-		catch (IOException e){
-			System.out.println("Error creating new file: " + e);
-		}
-	}
+   public void createNewFile(String usernameIn, String masterPasswordIn) {
+      System.out.println("Attempting to create new file...");
+      try {
+         PrintWriter writer = new PrintWriter(DEFAULT_FILENAME, "UTF-8");
+         writer.println(usernameIn);
+         writer.println(masterPasswordIn);
+         writer.close();
+      }
+      catch (IOException e){
+         System.out.println("Error creating new file: " + e);
+         return;
+      }
+
+      System.out.println("New file successfully created.");
+   }
 
 
 	/**
