@@ -12,11 +12,13 @@ Fields:
 	- masterPassword: String which will be used to access and encrypt the save file
 	- allowAccess: boolean that’s “true” if the masterPassword has been provided correctly, false otherwise; all methods except the lockAndKey() method will be locked until this value becomes true
 	- fileName: String that contains the name of the file being accessed and manipulated
+	- data: File object which is the file that contains the entries to be dealt with
+	- STATIC DEFAULT_FILENAME: String of the default file name to search for and load
 
 Methods:
 	- Constructor: set allowAccess to false; set masterPassword to empty
 	- boolean lockAndKey(String masterPasswordIn): 
-	- boolean loadFile(String fileNameIn): loads a saved (encrypted) password file
+	- boolean loadFile(): loads a saved (encrypted) password file, or creates a new one if none are found
 	- boolean addEntry(String entryIn): adds password/username to save file
 	- void encryptEntry(String entryIn): encrypt password using “masterPassword”
 	- boolean deleteEntry(String categoryIn): deletes password/username entry from file

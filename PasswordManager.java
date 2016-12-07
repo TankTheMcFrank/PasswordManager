@@ -1,8 +1,14 @@
+import java.io.File;
+import java.util.Scanner;
+
 public class PasswordManager {
 	//Fields
+	private File data;
+	private boolean allowAccess;
 	private String fileName;
 	private String masterPassword;
-	private boolean allowAccess;
+
+	private static String DEFAULT_FILENAME = "entry_files.txt";
 
 
 	//Constructor
@@ -30,6 +36,11 @@ public class PasswordManager {
 	 *         "masterPassword"
 	 */
 	public boolean lockAndKey(String masterPasswordIn) {
+		if (masterPassword.equals(masterPasswordIn)) {
+			allowAccess = true;
+			return true;
+		}
+
 		return false;
 	}
 
@@ -41,6 +52,16 @@ public class PasswordManager {
 	 * @return true/false based on the success of the method
 	 */
 	public boolean loadFile() {
+		try {
+			data = new File(DEFAULT_FILENAME);
+			if (!data.canRead()) {
+            	throw new Exception();
+         	}
+		}
+		catch (IOException e) {
+         	System.out.println("Error loading source text: " + e + 
+         		"\n Creating a new file.");
+      	}
 		return false;
 	}
 
@@ -52,9 +73,9 @@ public class PasswordManager {
 	 * @param fileNameIn name of file to search for and attempt to load
 	 * @return true/flase based on the success of the method
 	 */
-	public boolean loadFile(String fileNameIn) {
-		return false;
-	}
+	//public boolean loadFile(String fileNameIn) {
+		//return false;
+	//}
 
 
 	/**
