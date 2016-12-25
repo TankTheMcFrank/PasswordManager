@@ -1,3 +1,4 @@
+//import java.lang.StringBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -5,11 +6,14 @@ import java.util.Scanner;
 
 public class PasswordManager {
 	//Fields
-   private File data;
+   private File file;
    private boolean allowAccess;
+   private Scanner readFile;
    private String fileName;
-   private String masterPassword;
+   //private String masterPassword;
    private String user;
+   private PasswordSet<Credentials> data = 
+         new PasswordSet<Credentials>("username not set", "masterPassword not set");
 
    private static String DEFAULT_FILENAME = "entry_files.txt";
 
@@ -21,9 +25,27 @@ public class PasswordManager {
 	 * to have the proper password for lockAndKey() to compare with (and
 	 * therefore allow access to the rest of the program)
 	 */
-   public PasswordManager() {
-      masterPassword = "";
+   public PasswordManager() throws IOException {
+      //masterPassword = "";
       allowAccess = false;
+   }
+
+   /**
+    * Returns user field. For testing only.
+    *
+    * @return user field
+    */
+   public String getUser() {
+      return data.getUsername();
+   }
+
+   /**
+    * Returns masterPassword field. For testing only.
+    *
+    * @return masterPassword field
+    */
+   public String getMasterPassword() {
+      return data.getMasterPassword();
    }
 
 
@@ -39,7 +61,7 @@ public class PasswordManager {
 	 *         "masterPassword"
 	 */
    public boolean lockAndKey(String masterPasswordIn) {
-      if (masterPassword.equals(masterPasswordIn)) {
+      if (masterPasswordIn.equals(data.getMasterPassword())) {
          allowAccess = true;
          return true;
       }
@@ -54,19 +76,20 @@ public class PasswordManager {
 	 * 
 	 * @return true/false based on the success of the method
 	 */
-   public boolean loadFile() {
-      try {
-         data = new File(DEFAULT_FILENAME);
-         if (!data.canRead()) {
-            throw new Exception();
-         }
-      }
-      catch (Exception e) {
-         System.out.println("No default file found: " + e + 
-            	"\nCreating a new file.");
+   public boolean loadFile() throws IOException {
+      file = new File(DEFAULT_FILENAME);
+      if (!file.canRead()) {
+         System.out.println("File could not be read. Perhaps a new file should be created...");
          return false;
       }
+   
+      readFile = new Scanner(file);
+   
+      data.setUsername(readFile.nextLine());
+      data.setMasterPassword(readFile.nextLine());
+   
       System.out.println("File successfully loaded.");
+      readFile.close();
       return true;
    }
 
@@ -98,7 +121,10 @@ public class PasswordManager {
          System.out.println("Error creating new file: " + e);
          return;
       }
-
+   
+      data.setUsername(usernameIn);
+      data.setMasterPassword(masterPasswordIn);
+   
       System.out.println("New file successfully created.");
    }
 
@@ -112,8 +138,28 @@ public class PasswordManager {
 	 *         false (for instance, if the cateogry already exists in 
 	 *          the file)
 	 */
-   public boolean addEntry(String entryIn) {
-      return false;
+   public boolean addEntry() {
+      if (!allowAccess) {
+         System.out.println("Access denied. Provide master password.");
+         return false;
+      }
+   
+      Scanner input = new Scanner(System.in);
+   
+      System.out.print("Category for entry: ");
+      String newCategory = input.next();
+      
+      System.out.print("Username: ");
+      String newUsername = input.next();
+   
+      System.out.print("Password: ");
+      String newPassword = input.next();
+   
+      Credentials temp = new Credentials(newCategory, newUsername, newPassword);
+      data.add(temp);
+   
+      input.close();
+      return true;
    }
 
 
