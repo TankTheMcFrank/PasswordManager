@@ -20,20 +20,52 @@ public class PasswordManagerDriver {
          masterPassword = man.getMasterPassword();
       }
    
-      System.out.println("Please enter the master password for " + username + "'s account:");
+      System.out.println("Please enter the master password for " + username + "'s account: ");
       String passwordAttempt = input.next();
-        
-      man.lockAndKey(passwordAttempt);
-      man.addEntry();
+   
+      while (!man.lockAndKey(passwordAttempt)) {
+         System.out.println("Please enter the master password for " + username + "'s account: ");
+         passwordAttempt = input.next();
+      }
+   
+      String choice = "";
       
-      if (man.lockAndKey(passwordAttempt)) {
-         System.out.println("\n" + man.getUser());
-         System.out.println(man.getMasterPassword());
+      while (!choice.equals("c")) {
+         System.out.println("Select an option: ");
+         System.out.println("\t-(A)dd an entry");
+         System.out.println("\t-(D)elete an entry");
+         System.out.println("\t-(E)ntries");
+         System.out.println("\t-(C)lose program");
+         System.out.print("\nSelection: ");
+         choice = input.next().toLowerCase();
+      
+         switch (choice) {
+            case "a": 
+               man.addEntry();
+               break;
+         
+            case "d":
+               String categoryToDelete = "";
+               System.out.print("\nSpecify category to delete: ");
+               categoryToDelete = input.next();
+               man.deleteEntry(categoryToDelete);
+               break;
+         
+            case "e":
+               System.out.println(man.displayEntries());
+               break;
+         
+            case "c":
+               man.saveFile();
+               man.close();
+               break;
+         
+            default: 
+               System.out.println("Invalid answer choice.");
+               break;
+         } 
       }
-      else {
-         System.out.println("Passwords do not match... exiting program.");
-      }
-      	
+   
       System.out.println("Program ended successfully.");
    }
 }

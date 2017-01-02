@@ -2,6 +2,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class PasswordManager {
@@ -10,6 +11,7 @@ public class PasswordManager {
    private boolean allowAccess;
    private Scanner readFile;
    private String fileName;
+   private Scanner input;
    //private String masterPassword;
    private String user;
    private PasswordSet<Credentials> data = 
@@ -27,6 +29,7 @@ public class PasswordManager {
 	 */
    public PasswordManager() throws IOException {
       //masterPassword = "";
+      input = new Scanner(System.in);
       allowAccess = false;
    }
 
@@ -84,12 +87,24 @@ public class PasswordManager {
       }
    
       readFile = new Scanner(file);
+      Scanner lineReader;
    
       data.setUsername(readFile.nextLine());
       data.setMasterPassword(readFile.nextLine());
    
+      while (readFile.hasNext()) {
+         lineReader = new Scanner(readFile.nextLine());
+         lineReader.useDelimiter(",");
+         String tempCategory = lineReader.next();
+         String tempUsername = lineReader.next();
+         String tempPassword = lineReader.next();
+         Credentials temp = new Credentials(tempCategory, tempUsername, tempPassword);
+         data.add(temp);
+      }
+   
       System.out.println("File successfully loaded.");
       readFile.close();
+   
       return true;
    }
 
@@ -125,6 +140,8 @@ public class PasswordManager {
       data.setUsername(usernameIn);
       data.setMasterPassword(masterPasswordIn);
    
+      allowAccess = true;
+   
       System.out.println("New file successfully created.");
    }
 
@@ -144,21 +161,21 @@ public class PasswordManager {
          return false;
       }
    
-      Scanner input = new Scanner(System.in);
+      //Scanner input = new Scanner(System.in);
    
       System.out.print("Category for entry: ");
-      String newCategory = input.next();
+      String newCategory = input.nextLine();
       
       System.out.print("Username: ");
-      String newUsername = input.next();
+      String newUsername = input.nextLine();
    
       System.out.print("Password: ");
-      String newPassword = input.next();
+      String newPassword = input.nextLine();
    
       Credentials temp = new Credentials(newCategory, newUsername, newPassword);
       data.add(temp);
    
-      input.close();
+      //input.close();
       return true;
    }
 
@@ -186,7 +203,27 @@ public class PasswordManager {
 	 *         false (for instnace, if the entry is not found)
 	 */
    public boolean deleteEntry(String categoryIn) {
+      if (!allowAccess) {
+         System.out.println("Access denied. Provide master password.");
+         return false;
+      }
+      Credentials toRemove = new Credentials(categoryIn, "empty", "empty");
+      if (data.remove(toRemove)) {
+         return true;
+      }
+   
       return false;
+   }
+
+
+   /**
+    * The displayEntries() method returns a list of entries, including category,
+    * username, and password for each entry.
+    * 
+    * @return data.toString() String displaying the entries in data field
+    */
+   public String displayEntries() {
+      return data.toString();
    }
 
 
@@ -227,5 +264,38 @@ public class PasswordManager {
 	 */
    public boolean isFound(String categoryIn) {
       return false;
+   }
+
+   /**
+    * The saveFile() method will save the contents of the data field to a txt file named "entry_files.txt" so that
+    * the Credentials objects can be reloaded in a later iteration of this program. 
+    * 
+    * @return true/false true if the method belives that the file was saved properly, otherwise false
+    */
+   public boolean saveFile() {
+      try {
+         PrintWriter writer = new PrintWriter(DEFAULT_FILENAME, "UTF-8");
+         writer.println(data.getUsername());
+         writer.println(data.getMasterPassword());
+      
+         Iterator<Credentials> itr = data.iterator();
+      
+         while (itr.hasNext()) {
+            Credentials temp = itr.next();
+            String toAdd = temp.getCategory() + "," + temp.getUsername() + "," + temp.getPassword();
+            writer.println(toAdd);
+         }
+         writer.close();
+      }
+      catch (IOException e){
+         System.out.println("Error creating save file: " + e);
+         return false;
+      }
+   
+      return false;
+   }
+
+   public void close() {
+      input.close();
    }
 }

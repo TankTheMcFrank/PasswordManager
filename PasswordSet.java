@@ -78,15 +78,12 @@ public class PasswordSet<T extends Comparable<? super T>> implements Set<T> {
    @Override
    public String toString() {
       if (isEmpty()) {
-         return "[]";
+         return "Password Set is empty.";
       }
       StringBuilder result = new StringBuilder();
-      result.append("[");
       for (T element : this) {
-         result.append(element + ", ");
+         result.append(element.toString() + "\n");
       }
-      result.delete(result.length() - 2, result.length());
-      result.append("]");
       return result.toString();
    }
 
