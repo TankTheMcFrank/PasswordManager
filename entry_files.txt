@@ -1,6 +1,5 @@
 TankTheMcFrank
-WarDamnNavy2019
-Amazon,Prime,taco
-Amazon Prime,frankhherring@gmail.com,tacoBe114life
-Hulu,pbnj10@hotmail.com,God12345
-Netflix,frankhherring@gmail.com,C@thol1c
+W@rD@mnN@vy2019
+Apple ID,frankhherring@gmail.com,WarDamnNavy2019
+java,java.java,taco
+Mac,Frank Herring,t0veLolo

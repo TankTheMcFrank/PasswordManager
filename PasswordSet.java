@@ -167,15 +167,15 @@ public class PasswordSet<T extends Comparable<? super T>> implements Set<T> {
       int mid;
       while (lo <= hi) {
          mid = (lo + hi) / 2;
-         if (element.compareTo(elements[mid]) == 0) {
+         if (element.completeCompare(elements[mid]) == 0) {
             return mid;
          }
          
-         if (element.compareTo(elements[mid]) < 0) {
+         if (element.completeCompare(elements[mid]) < 0) {
             hi = mid - 1;
          }
          
-         if (element.compareTo(elements[mid]) > 0) {
+         if (element.completeCompare(elements[mid]) > 0) {
             lo = mid + 1;
          }
       }

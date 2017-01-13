@@ -190,7 +190,7 @@ public class PasswordManager {
 	 * @param entryIn entry to be encrypted
 	 */
    public void encryptEntry(String entryIn) {
-   
+    return;
    }
 
 
@@ -207,6 +207,9 @@ public class PasswordManager {
          System.out.println("Access denied. Provide master password.");
          return false;
       }
+      
+      data.findAllWithCategory(categoryIn);
+      System.out.println()
       Credentials toRemove = new Credentials(categoryIn, "empty", "empty");
       if (data.remove(toRemove)) {
          return true;
@@ -237,7 +240,7 @@ public class PasswordManager {
 	 * @param entryIn entry to be decrypted
 	 */
    public void decryptEntry(String entryIn) {
-   
+    return;
    }
 
 

@@ -20,14 +20,14 @@ public class Credentials implements Comparable<Credentials> {
 	 * @return output String detailing the Credentials object
 	 */
 	public String toString() {
-		String output = category + "\t" + username + "\t" + password;
+		String output = category + "\t\t" + username + "\t\t" + password;
 
 		return output;
 	}
 
 	/**
 	 * getCategory() returns the category field.
-	 *
+	 * 
 	 * @return category
 	 */
 	public String getCategory() {
@@ -88,7 +88,7 @@ public class Credentials implements Comparable<Credentials> {
 	 * @return 1 if this is greater than other, -1 if this is less than other,
 	 *         0 otherwise
 	 */
-	public int compareComplete(Credentials other) {
+	public int completeCompare(Credentials other) {
 		String thisCat = this.getCategory().toLowerCase();
 		String otherCat = other.getCategory().toLowerCase();
 		String thisUser = this.getUsername().toLowerCase();
